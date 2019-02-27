@@ -26,4 +26,8 @@ public class CarRepo {
         return entityManager.createQuery("SELECT c FROM Car c")
                 .getResultList();
     }
+
+    public Car find(long id){
+        return entityManager.find(Car.class, id);
+    }
 }
