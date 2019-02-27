@@ -20,13 +20,18 @@ public class TestController extends HttpServlet {
 
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-        out.println("<h3>Sup...</h3>");
-        Car car = new Car();
-        car.setCarName("BMW");
+        out.println("<h3>Supuuuuu...</h3>");
+        //created a test car will move this out later
+//        Car car = new Car();
+//        car.setCarName("BMW");
+//
+//        carRepo.create(car);
+        for (Car car : carRepo.findAll()) {
+            out.println(car.getCarName());
+        }
 
-        carRepo.create(car);
     }
 }

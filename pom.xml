@@ -17,13 +17,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <payara.adminPort>4848</payara.adminPort>
-    <payara.username>admin</payara.username>
-    <payara.password>""</payara.password>
-    <payara.hostname>localhost</payara.hostname>
-    <payara.domainName>domain1</payara.domainName>
-    <payara.home></payara.home>
-    <payara.domainDir>C:\Users\Sven\Desktop\payara5\glassfish\domains</payara.domainDir>
   </properties>
 
   <dependencies>
@@ -86,12 +79,6 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.8.2</version>
         </plugin>
-        <!-- Cargo plugin -->
-        <plugin>
-          <groupId>org.codehaus.cargo</groupId>
-          <artifactId>cargo-maven2-plugin</artifactId>
-          <version>1.6.7</version>
-        </plugin>
         <!-- Payara Cargo stuff -->
         <plugin>
           <groupId>org.codehaus.cargo</groupId>
@@ -100,13 +87,14 @@
             <container>
               <containerId>glassfish4x</containerId>
               <type>installed</type>
-              <home>C:\Users\Sven\Desktop\payara5</home>
+              <home>C:/Users/Sven/Desktop/payara5</home>
             </container>
             <configuration>
               <type>existing</type>
-              <home>C:\Users\Sven\Desktop\payara5\glassfish\domains</home>
+              <home>C:/Users/Sven/Desktop/payara5/glassfish/domains</home>
               <properties>
-                <cargo.glassfish.domain.name>C:\Users\Sven\Desktop\payara5\glassfish\domains\domain1</cargo.glassfish.domain.name>
+                <cargo.glassfish.domain.name>domain1</cargo.glassfish.domain.name>
+                <cargo.remote.username>admin</cargo.remote.username>
               </properties>
             </configuration>
           </configuration>
