@@ -29,4 +29,12 @@ public class Car implements Serializable {
     public void setCarName(String carName) {
         this.carName = carName;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", carName='" + carName + '\'' +
+                '}';
+    }
 }
