@@ -8,8 +8,13 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import java.util.List;
+import java.util.Set;
 
 import static javax.transaction.Transactional.TxType.REQUIRED;
 
@@ -19,10 +24,23 @@ public class CarRepo {
 
     @PersistenceContext(unitName="daSvenPU")
     private EntityManager entityManager;
+    private Validator validator;
+
+    public CarRepo(){
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        this.validator = validatorFactory.getValidator();
+    }
 
     @Transactional(REQUIRED)
-    public void create(Car car) {
+    public Car create(Car car) {
+        Set<ConstraintViolation<Car>> violations = validator.validate(car);
+        for(ConstraintViolation<Car> violation : violations){
+            // Log this?
+            System.out.println("VIOLATION!!!!! " + violation.getMessage());
+        }
         entityManager.persist(car);
+        car.setId(1l);
+        return car;
     }
 
     public List<Car> findAll() {
@@ -30,7 +48,8 @@ public class CarRepo {
                 .getResultList();
     }
 
-    public Car find(long id){
+    public Car find(Long id){
         return entityManager.find(Car.class, id);
     }
+
 }
