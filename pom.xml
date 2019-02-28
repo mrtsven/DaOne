@@ -44,6 +44,23 @@
       <artifactId>javaee-api</artifactId>
       <version>7.0</version>
     </dependency>
+    <!-- Testing API stuff -->
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>3.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-moxy</artifactId>
+      <version>2.28</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.5</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -104,6 +121,34 @@
               <groupId>org.glassfish.main.deployment</groupId>
               <artifactId>deployment-client</artifactId>
               <version>4.1.1</version>
+            </dependency>
+            <!-- Validation api per JSR-380 specs -->
+            <dependency>
+              <groupId>javax.validation</groupId>
+              <artifactId>validation-api</artifactId>
+              <version>2.0.0.Final</version>
+            </dependency>
+            <!-- Hibernate validator reference to validation API -->
+            <dependency>
+              <groupId>org.hibernate.validator</groupId>
+              <artifactId>hibernate-validator</artifactId>
+              <version>6.0.2.Final</version>
+            </dependency>
+            <dependency>
+              <groupId>org.hibernate.validator</groupId>
+              <artifactId>hibernate-validator-annotation-processor</artifactId>
+              <version>6.0.2.Final</version>
+            </dependency>
+            <!-- Expression Language -->
+            <dependency>
+              <groupId>javax.el</groupId>
+              <artifactId>javax.el-api</artifactId>
+              <version>3.0.0</version>
+            </dependency>
+            <dependency>
+              <groupId>org.glassfish.web</groupId>
+              <artifactId>javax.el</artifactId>
+              <version>2.2.6</version>
             </dependency>
           </dependencies>
         </plugin>
