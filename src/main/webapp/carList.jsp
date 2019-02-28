@@ -1,4 +1,5 @@
-<%--
+<%@ page import="Models.Car" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Sven
   Date: 11-2-2019
@@ -12,5 +13,14 @@
 </head>
 <body>
  <h1>Bunch of cars</h1>
+<%
+    List<Car> cars = (List<Car>) request.getAttribute("cars");
+    for (Car car : cars){
+        out.print(car);
+    }
+%>
+ <c:forEach var="car" items="${cars}">
+     <br> Dit zijn ze dan: <c:out value="${car}"/>
+ </c:forEach>
 </body>
 </html>
