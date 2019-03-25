@@ -3,4 +3,48 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
   <display-name>Archetype Created Web Application</display-name>
+
+  <!-- Session timer -->
+  <session-config>
+    <session-timeout>
+      300
+    </session-timeout>
+  </session-config>
+
+  <!-- Landing page -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+  <!-- SECURITY -->
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>admin-realm</realm-name>
+
+    <!-- Personal login pages -->
+    <!--<form-login-config>-->
+    <!--<form-login-page>/pageName.jsp</form-login-page>-->
+    <!--<form-error-page>/error.jsp</form-error-page>-->
+    <!--</form-login-config>-->
+  </login-config>
+
+
+  <security-constraint>
+    <display-name>Restricted to users</display-name>
+    <web-resource-collection>
+      <web-resource-name>Restricted Access</web-resource-name>
+      <url-pattern>/jaas/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>users</role-name>
+    </auth-constraint>
+    <user-data-constraint>
+      <transport-guarantee>NONE</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+
+  <security-role>
+    <description/>
+    <role-name>users</role-name>
+  </security-role>
 </web-app>
