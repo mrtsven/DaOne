@@ -19,8 +19,8 @@
         out.print(car);
     }
 %>
- <c:forEach var="car" items="${cars}">
-     <br> Dit zijn ze dan: <c:out value="${car}"/>
+ <c:forEach items="${cars}" var="cars" >
+     <br> Dit zijn ze dan: <c:out value="${car.name}"/>
  </c:forEach>
 </body>
 </html>
