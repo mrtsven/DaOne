@@ -15,12 +15,18 @@
  <h1>Bunch of cars</h1>
 <%
     List<Car> cars = (List<Car>) request.getAttribute("cars");
-    for (Car car : cars){
-        out.print(car);
-    }
+    request.setAttribute("cars", cars);
+//    for (Car car : cars){
+//        out.print(car);
+//    }
 %>
- <c:forEach items="${cars}" var="cars" >
-     <br> Dit zijn ze dan: <c:out value="${car.name}"/>
+ Dit zijn ze dan:
+ <c:forEach items="${cars}" var="car" >
+     <c:out value="${car.carName}"/>
  </c:forEach>
+
+ <ui:repeat value="#{cars}" var="item">
+     <h:outputText id="item" value="#{item.carName}" />
+ </ui:repeat>
 </body>
 </html>
