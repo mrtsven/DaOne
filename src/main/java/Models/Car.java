@@ -34,9 +34,8 @@ public class Car implements Serializable {
 
     @Override
     public String toString() {
-        return "Car{" +
+        return "Car = " +
                 "id=" + id +
-                ", carName='" + carName + '\'' +
-                '}';
+                ", carName='" + carName + '\'';
     }
 }

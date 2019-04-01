@@ -3,6 +3,7 @@
     <persistence-unit name="daSvenPU" transaction-type="JTA">
         <jta-data-source>jdbc/test-pool</jta-data-source>
         <class>Models.Car</class>
+        <class>Models.User</class>
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="create"/>
         </properties>
