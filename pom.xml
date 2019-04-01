@@ -15,8 +15,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -25,6 +25,11 @@
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-core</artifactId>
+      <version>8.5.23</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
     <dependency>
@@ -43,6 +48,35 @@
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>
       <version>7.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- Validation api per JSR-380 specs -->
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>2.0.0.Final</version>
+    </dependency>
+    <!-- Expression Language -->
+    <dependency>
+      <groupId>javax.el</groupId>
+      <artifactId>javax.el-api</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.web</groupId>
+      <artifactId>javax.el</artifactId>
+      <version>2.2.6</version>
+    </dependency>
+    <!-- Hibernate validator reference to validation API -->
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>6.0.2.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator-annotation-processor</artifactId>
+      <version>6.0.2.Final</version>
     </dependency>
     <!-- Testing API stuff -->
     <dependency>
@@ -54,6 +88,16 @@
       <groupId>org.glassfish.jersey.media</groupId>
       <artifactId>jersey-media-moxy</artifactId>
       <version>2.28</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>2.15</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.ext</groupId>
+      <artifactId>jersey-mvc-jsp</artifactId>
+      <version>2.21</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
     <dependency>
@@ -121,34 +165,6 @@
               <groupId>org.glassfish.main.deployment</groupId>
               <artifactId>deployment-client</artifactId>
               <version>4.1.1</version>
-            </dependency>
-            <!-- Validation api per JSR-380 specs -->
-            <dependency>
-              <groupId>javax.validation</groupId>
-              <artifactId>validation-api</artifactId>
-              <version>2.0.0.Final</version>
-            </dependency>
-            <!-- Hibernate validator reference to validation API -->
-            <dependency>
-              <groupId>org.hibernate.validator</groupId>
-              <artifactId>hibernate-validator</artifactId>
-              <version>6.0.2.Final</version>
-            </dependency>
-            <dependency>
-              <groupId>org.hibernate.validator</groupId>
-              <artifactId>hibernate-validator-annotation-processor</artifactId>
-              <version>6.0.2.Final</version>
-            </dependency>
-            <!-- Expression Language -->
-            <dependency>
-              <groupId>javax.el</groupId>
-              <artifactId>javax.el-api</artifactId>
-              <version>3.0.0</version>
-            </dependency>
-            <dependency>
-              <groupId>org.glassfish.web</groupId>
-              <artifactId>javax.el</artifactId>
-              <version>2.2.6</version>
             </dependency>
           </dependencies>
         </plugin>
