@@ -16,35 +16,56 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 
-  <!-- SECURITY -->
+  <!-- SECURITY JAAS -->
+  <!--<login-config>-->
+    <!--<auth-method>BASIC</auth-method>-->
+    <!--<realm-name>admin-realm</realm-name>-->
+
+    <!--&lt;!&ndash; Personal login pages &ndash;&gt;-->
+    <!--&lt;!&ndash;<form-login-config>&ndash;&gt;-->
+    <!--&lt;!&ndash;<form-login-page>/pageName.jsp</form-login-page>&ndash;&gt;-->
+    <!--&lt;!&ndash;<form-error-page>/error.jsp</form-error-page>&ndash;&gt;-->
+    <!--&lt;!&ndash;</form-login-config>&ndash;&gt;-->
+  <!--</login-config>-->
+
+  <!--<security-constraint>-->
+    <!--<display-name>Restricted to users</display-name>-->
+    <!--<web-resource-collection>-->
+      <!--<web-resource-name>Restricted Access</web-resource-name>-->
+      <!--<url-pattern>/jaas/*</url-pattern>-->
+    <!--</web-resource-collection>-->
+    <!--<auth-constraint>-->
+      <!--<role-name>users</role-name>-->
+    <!--</auth-constraint>-->
+    <!--<user-data-constraint>-->
+      <!--<transport-guarantee>NONE</transport-guarantee>-->
+    <!--</user-data-constraint>-->
+  <!--</security-constraint>-->
+
+  <!--<security-role>-->
+    <!--<description/>-->
+    <!--<role-name>users</role-name>-->
+  <!--</security-role>-->
+
+  <!--  login Config JAAS -->
   <login-config>
-    <auth-method>BASIC</auth-method>
-    <realm-name>admin-realm</realm-name>
-
-    <!-- Personal login pages -->
-    <!--<form-login-config>-->
-    <!--<form-login-page>/pageName.jsp</form-login-page>-->
-    <!--<form-error-page>/error.jsp</form-error-page>-->
-    <!--</form-login-config>-->
+    <auth-method>FORM</auth-method>
+    <realm-name>userMgmtJdbcRealmDaOne</realm-name>
   </login-config>
-
-
   <security-constraint>
-    <display-name>Restricted to users</display-name>
     <web-resource-collection>
-      <web-resource-name>Restricted Access</web-resource-name>
+      <web-resource-name>Secured Content</web-resource-name>
       <url-pattern>/jaas/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
-      <role-name>users</role-name>
+      <role-name>ADMIN</role-name>
     </auth-constraint>
-    <user-data-constraint>
-      <transport-guarantee>NONE</transport-guarantee>
-    </user-data-constraint>
   </security-constraint>
-
+  <!-- roles -->
   <security-role>
-    <description/>
-    <role-name>users</role-name>
+    <role-name>ADMIN</role-name>
+  </security-role>
+  <security-role>
+    <role-name>STANDARD</role-name>
   </security-role>
 </web-app>

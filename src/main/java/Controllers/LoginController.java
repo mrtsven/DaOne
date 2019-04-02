@@ -58,6 +58,7 @@ public class LoginController {
             e.printStackTrace();
             json.setErrorMsg("User Account created, but login failed. Please try again later.");
             json.setStatus("FAILED");
+            return Response.serverError().entity(json).build();
         }
 
         return Response.ok().entity(json).build();
@@ -80,7 +81,7 @@ public class LoginController {
             } catch (ServletException e) {
                 e.printStackTrace();
                 json.setStatus("FAILED");
-                json.setErrorMsg("Authentication failed");
+                json.setErrorMsg("Authentication failed" + e);
                 return Response.serverError().entity(json).build();
             }
         }else{
