@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("auth")
+@Path("authJAAS")
 public class LoginController {
     @EJB
     private UserBean userBean;
@@ -43,8 +43,10 @@ public class LoginController {
         User user = new User(newUser);
 
         List<UserPrivilege> roles = new ArrayList<UserPrivilege>();
-        roles.add(UserPrivilege.ADMIN);
-        roles.add(UserPrivilege.STANDARD);
+        roles.add(UserPrivilege.Admin);
+        roles.add(UserPrivilege.User);
+        roles.add(UserPrivilege.Stats);
+
         user.setPrivileges(roles);
 
         userBean.save(user);
@@ -85,7 +87,7 @@ public class LoginController {
                 return Response.serverError().entity(json).build();
             }
         }else{
-            req.getServletContext().log("Skip logged because already logged in: "+userLogin.getEmail());
+            req.getServletContext().log("Skip logged because already logged in: " + userLogin.getEmail());
         }
 
         json.setStatus("SUCCESS");

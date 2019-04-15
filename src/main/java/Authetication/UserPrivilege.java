@@ -1,6 +1,7 @@
 package Authetication;
 
 public enum UserPrivilege {
-    ADMIN,
-    STANDARD
+    Admin,
+    User,
+    Stats,
 }
