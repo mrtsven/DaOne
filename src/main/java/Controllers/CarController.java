@@ -1,6 +1,7 @@
 package Controllers;
 
-import Models.Car;
+import Models.Car.Car;
+import Models.Car.CarDTO;
 import Repository.CarRepo;
 
 import javax.ejb.EJB;
@@ -41,10 +42,11 @@ public class CarController {
     }
 
     @POST
-    @Path("/create")
+    @Path("/{userId}/create")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Car createCar(Car car){
+    public Car createCar(@PathParam("userId") Long userId, CarDTO carDTO){
+        Car car = new Car(carDTO);
         return carRepo.create(car);
     }
 }

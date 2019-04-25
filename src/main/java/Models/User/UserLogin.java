@@ -1,4 +1,4 @@
-package Models;
+package Models.User;
 
 public class UserLogin {
     private String email;

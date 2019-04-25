@@ -1,6 +1,6 @@
 package Authetication;
 
-import Models.User;
+import Models.User.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

@@ -2,7 +2,7 @@ package Controllers;
 
 import Configuration.MessageDecoder;
 import Configuration.MessageEncoder;
-import Models.Message;
+import Models.Message.Message;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;

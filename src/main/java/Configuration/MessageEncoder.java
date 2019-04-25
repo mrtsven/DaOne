@@ -1,6 +1,6 @@
 package Configuration;
 
-import Models.Message;
+import Models.Message.Message;
 import com.google.gson.Gson;
 
 import javax.websocket.EncodeException;

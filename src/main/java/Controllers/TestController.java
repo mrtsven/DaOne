@@ -1,7 +1,7 @@
 package Controllers;
 
 
-import Models.Car;
+import Models.Car.Car;
 import Repository.CarRepo;
 
 import javax.ejb.EJB;

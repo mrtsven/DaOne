@@ -1,8 +1,8 @@
 package Configuration;
 
 import Authetication.UserPrivilege;
-import Models.User;
-import Models.UserLogin;
+import Models.User.User;
+import Models.User.UserLogin;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

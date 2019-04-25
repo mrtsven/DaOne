@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<form action="/DaOne/admin.jsp">
+<form action="/DaOne/jaas/admin.jsp">
     <input type="submit" value="Go to admin" />
 </form>
 

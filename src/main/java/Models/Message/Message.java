@@ -1,4 +1,4 @@
-package Models;
+package Models.Message;
 
 public class Message {
     private String from;

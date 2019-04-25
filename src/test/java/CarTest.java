@@ -1,17 +1,6 @@
-import Models.Car;
-import com.google.gson.Gson;
 import io.restassured.RestAssured;
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.core.IsEqual.equalTo;
 
-import io.restassured.http.ContentType;
-import io.restassured.response.Response;
-import org.hamcrest.Matchers;
 import org.junit.BeforeClass;
-import org.junit.Test;
-
-import javax.json.Json;
-import javax.json.JsonObject;
 
 
 public class CarTest {

@@ -1,6 +1,6 @@
 package Repository;
 
-import Models.Car;
+import Models.Car.Car;
 import MyInterceptors.MyInterceptor;
 
 import javax.ejb.Stateless;

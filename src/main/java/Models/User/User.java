@@ -1,4 +1,4 @@
-package Models;
+package Models.User;
 
 import Authetication.UserDTO;
 import Authetication.UserPrivilege;

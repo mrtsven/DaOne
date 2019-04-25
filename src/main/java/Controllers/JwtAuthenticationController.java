@@ -3,8 +3,8 @@ package Controllers;
 import Authetication.UserDTO;
 import Authetication.UserPrivilege;
 import Configuration.JwtTokenUtil;
-import Models.User;
-import Models.UserLogin;
+import Models.User.User;
+import Models.User.UserLogin;
 import MyInterceptors.MyInterceptor;
 import Repository.UserRepository;
 import Response.JsonResponse;
@@ -53,13 +53,13 @@ public class JwtAuthenticationController {
                 return Response.ok().header(AUTHORIZATION, "Bearer " + token).entity(json).build();
             } else{
                 json.setStatus("FAILED");
-                json.setErrorMsg("We failed to authenticate: " + json);
+                json.setErrorMsg("We failed to authenticate: " + json.toString());
 
                 return Response.status(401).entity(json).build();
             }
         } catch (Exception e){
             json.setStatus("FAILED");
-            json.setErrorMsg("We failed to authenticate: " + json);
+            json.setErrorMsg("We failed to authenticate: " + json.toString());
 
             return Response.status(401).entity(json).build();
         }
@@ -81,7 +81,7 @@ public class JwtAuthenticationController {
         User user = new User(newUser);
 
         List<UserPrivilege> privileges = new ArrayList<UserPrivilege>();
-        privileges.add(UserPrivilege.User);
+        privileges.add(UserPrivilege.USER);
         user.setPrivileges(privileges);
 
         try{

@@ -3,8 +3,8 @@ package Controllers;
 import Authetication.UserBean;
 import Authetication.UserDTO;
 import Authetication.UserPrivilege;
-import Models.User;
-import Models.UserLogin;
+import Models.User.User;
+import Models.User.UserLogin;
 import Response.JsonResponse;
 
 import javax.ejb.EJB;
@@ -43,9 +43,9 @@ public class LoginController {
         User user = new User(newUser);
 
         List<UserPrivilege> roles = new ArrayList<UserPrivilege>();
-        roles.add(UserPrivilege.Admin);
-        roles.add(UserPrivilege.User);
-        roles.add(UserPrivilege.Stats);
+        roles.add(UserPrivilege.ADMIN);
+        roles.add(UserPrivilege.USER);
+        roles.add(UserPrivilege.STATS);
 
         user.setPrivileges(roles);
 

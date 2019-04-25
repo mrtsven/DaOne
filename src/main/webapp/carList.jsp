@@ -1,4 +1,4 @@
-<%@ page import="Models.Car" %>
+<%@ page import="Models.Car.Car" %>
 <%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Sven

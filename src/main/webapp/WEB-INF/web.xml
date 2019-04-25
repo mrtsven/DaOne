@@ -13,12 +13,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
   <!-- Landing page -->
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>./build/index.html</welcome-file>
   </welcome-file-list>
 
   <!-- SECURITY JAAS -->
   <!--<login-config>-->
-    <!--<auth-method>BASIC</auth-method>-->
     <!--<realm-name>admin-realm</realm-name>-->
 
     <!--&lt;!&ndash; Personal login pages &ndash;&gt;-->
@@ -49,7 +48,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
   <!--  login Config JAAS -->
   <login-config>
-    <auth-method>FORM</auth-method>
+<!--    <auth-method>FORM</auth-method>-->
+    <auth-method>BASIC</auth-method>
     <realm-name>userMgmtJdbcRealmDaOne</realm-name>
   </login-config>
   <security-constraint>
