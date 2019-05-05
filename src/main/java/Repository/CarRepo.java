@@ -39,7 +39,7 @@ public class CarRepo {
             System.out.println("VIOLATION!!!!! " + violation.getMessage());
         }
         entityManager.persist(car);
-        car.setId(1l);
+
         return car;
     }
 

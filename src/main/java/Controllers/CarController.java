@@ -1,52 +1,74 @@
 package Controllers;
 
+import Configuration.JwtTokenUtil;
 import Models.Car.Car;
 import Models.Car.CarDTO;
 import Repository.CarRepo;
+import org.json.JSONObject;
 
 import javax.ejb.EJB;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
+import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 @Path("/car")
 public class CarController {
     @EJB
     CarRepo carRepo;
+    JwtTokenUtil jwt = new JwtTokenUtil();
 
     public CarController(){
     }
 
     @GET
-    public String wtf(){
-        return "What the flag";
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCar(@PathParam("id") long id)
+    {
+        JSONObject response = new JSONObject();
+        response.put("car", carRepo.find(id));
+        response.put("_links", getLinks(URI.create("http://localhost:8080/DaOne/api/car/{carId}")));
+        return Response.ok(response.toString(2)).build();
     }
 
     @GET
-    @Path("/get/{id}")
-    public Car getCar(@PathParam("id") Long id){
-        return carRepo.find(id);
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCars()
+    {
+        JSONObject response = new JSONObject();
+        response.put("cars", carRepo.findAll());
+        response.put("_links", getLinks(URI.create("http://localhost:8080/DaOne/api/car")));
+
+        return Response.ok(response.toString(2)).build();
     }
 
-    @GET
-    @Path("/get/all")
-    public void getAll(@Context HttpServletRequest request,
-                       @Context HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("cars", carRepo.findAll());
-        request.getRequestDispatcher("/carList.jsp")
-                .forward(request, response);
-    }
 
     @POST
     @Path("/{userId}/create")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Car createCar(@PathParam("userId") Long userId, CarDTO carDTO){
+    public Response createCar(@PathParam("userId") Long userId, CarDTO carDTO){
         Car car = new Car(carDTO);
-        return carRepo.create(car);
+        carRepo.create(car);
+
+        JSONObject response = new JSONObject();
+        response.put("car", car);
+        response.put("_links", getLinks(URI.create("http://localhost:8080/DaOne/api/{userId}/create")));
+
+        return Response.ok(response.toString(2)).build();
+    }
+
+    private Map<String, URI> getLinks(URI self)
+    {
+        Map<String, URI> links = new HashMap<>();
+
+        links.put("self", self);
+        links.put("save", URI.create("http://localhost:8080/DaOne/api/car/{userId}/create"));
+        links.put("get", URI.create("http://localhost:8080/DaOne/api/car/{carId}"));
+        links.put("get all", URI.create("http://localhost:8080/DaOne/api/car"));
+
+        return links;
     }
 }
