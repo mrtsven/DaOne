@@ -14,13 +14,16 @@
 <body>
 <h1>Bunch of cars</h1>
 <%
-    List<Car> cars = (List<Car>) request.getAttribute("cars");
+List<Car> cars = (List<Car>) request.getAttribute("cars");
     request.setAttribute("cars", cars);
-
-        for (Car car : cars){
-        out.print(car);
-    }
 %>
+
+<table border="1" width="90%">
+    <tr><th>Id</th><th>Name</th>
+    <c:forEach items="${list}" var="u">
+        <tr><td>${u.getId()}</td><td>${u.getCarName()}</td>
+    </c:forEach>
+</table>
 
 </body>
 </html>

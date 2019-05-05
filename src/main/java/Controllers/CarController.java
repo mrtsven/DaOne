@@ -4,6 +4,7 @@ import Configuration.JwtTokenUtil;
 import Models.Car.Car;
 import Models.Car.CarDTO;
 import Repository.CarRepo;
+import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import javax.ejb.EJB;
@@ -29,8 +30,8 @@ public class CarController {
     public Response getCar(@PathParam("id") long id)
     {
         JSONObject response = new JSONObject();
-        response.put("car", carRepo.find(id));
-        response.put("_links", getLinks(URI.create("http://localhost:8080/DaOne/api/car/{carId}")));
+        response.put("car", carRepo.find(id).toJsonCustom());
+        response.put("_links", getLinks(URI.create("http://localhost:8080/DaOne/api/car/carId")));
         return Response.ok(response.toString(2)).build();
     }
 
@@ -51,11 +52,25 @@ public class CarController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createCar(@PathParam("userId") Long userId, CarDTO carDTO){
         Car car = new Car(carDTO);
-        carRepo.create(car);
+        car = carRepo.create(car);
 
         JSONObject response = new JSONObject();
-        response.put("car", car);
-        response.put("_links", getLinks(URI.create("http://localhost:8080/DaOne/api/{userId}/create")));
+        response.put("car", car.toJsonCustom());
+        response.put("_links", getLinks(URI.create("http://localhost:8080/DaOne/api/userId/create")));
+
+        return Response.ok(response.toString(2)).build();
+    }
+
+    @DELETE
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response delete(@PathParam("id") long id){
+        JSONObject response = new JSONObject();
+
+        carRepo.delete(id);
+
+        response.put("id", id);
+        response.put("_links", getLinks(URI.create("http://localhost:8080/DaOne/api/car/carId")));
 
         return Response.ok(response.toString(2)).build();
     }
@@ -65,8 +80,9 @@ public class CarController {
         Map<String, URI> links = new HashMap<>();
 
         links.put("self", self);
-        links.put("save", URI.create("http://localhost:8080/DaOne/api/car/{userId}/create"));
-        links.put("get", URI.create("http://localhost:8080/DaOne/api/car/{carId}"));
+        links.put("save", URI.create("http://localhost:8080/DaOne/api/car/userId/create"));
+        links.put("delete", URI.create("http://localhost:8080/DaOne/api/car/carId"));
+        links.put("get", URI.create("http://localhost:8080/DaOne/api/car/carId"));
         links.put("get all", URI.create("http://localhost:8080/DaOne/api/car"));
 
         return links;

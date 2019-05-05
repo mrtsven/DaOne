@@ -34,10 +34,12 @@ public class CarRepo {
     @Transactional(REQUIRED)
     public Car create(Car car) {
         Set<ConstraintViolation<Car>> violations = validator.validate(car);
+
         for(ConstraintViolation<Car> violation : violations){
-            // Log this?
-            System.out.println("VIOLATION!!!!! " + violation.getMessage());
+            // Log this
+            System.out.println(violation.getRootBeanClass() + " " + violation.getMessage());
         }
+
         entityManager.persist(car);
 
         return car;
@@ -50,6 +52,11 @@ public class CarRepo {
 
     public Car find(Long id){
         return entityManager.find(Car.class, id);
+    }
+
+    public void delete(Long id){
+        Car deleteCar = entityManager.find(Car.class, id);
+        entityManager.remove(deleteCar);
     }
 
 }

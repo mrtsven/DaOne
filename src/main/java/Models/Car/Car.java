@@ -1,6 +1,7 @@
 package Models.Car;
 
 import Models.Part.Part;
+import org.json.JSONObject;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,9 +22,9 @@ public class Car implements Serializable {
     @NotNull(message = "You have to specify the car price")
     private double price;
     private Long liked_by;
+    @NotNull(message = "You have to specify the owner")
     private Long owner_id;
     @OneToMany
-    @Null
     private List<Part> parts;
 
     public Car() {
@@ -92,5 +93,32 @@ public class Car implements Serializable {
 
     public void setParts(List<Part> parts) {
         this.parts = parts;
+    }
+
+    public JSONObject toJsonCustom(){
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("id", this.id);
+        jsonObject.put("carName", this.carName);
+        jsonObject.put("model", this.model);
+        jsonObject.put("price", this.price);
+        jsonObject.put("liked_by", this.liked_by);
+        jsonObject.put("owner_id", this.owner_id);
+        jsonObject.put("parts", this.parts);
+
+        return  jsonObject;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", carName='" + carName + '\'' +
+                ", model='" + model + '\'' +
+                ", price=" + price +
+                ", liked_by=" + liked_by +
+                ", owner_id=" + owner_id +
+                ", parts=" + parts +
+                '}';
     }
 }
