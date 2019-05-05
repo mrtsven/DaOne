@@ -3,16 +3,19 @@ package Controllers;
 import Authetication.UserDTO;
 import Authetication.UserPrivilege;
 import Configuration.JwtTokenUtil;
+import Mail.EmailClient;
 import Models.User.User;
 import Models.User.UserLogin;
 import MyInterceptors.MyInterceptor;
 import Repository.UserRepository;
 import Response.JsonResponse;
+import io.jsonwebtoken.Claims;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -31,16 +34,20 @@ import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 public class JwtAuthenticationController {
     // Provides us with the necessary Token methods
     private JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
+    @EJB
+    private EmailClient emailClient = new EmailClient();
 
     @EJB
     private UserRepository userRepository;
 
     @POST
     @Path("login")
-    public Response authenticate(UserLogin userLogin, @Context HttpServletRequest request){
+    public Response authenticate(UserLogin userLogin, @Context HttpServletRequest request) throws MessagingException {
         JsonResponse json = new JsonResponse();
         String token = null;
         json.setData(userLogin);
+
+        emailClient.sendAsHtml("react@react.com", "Password boy", "<strong>Suh</strong>");
 
         try {
             if(userRepository.login(userLogin.getEmail(), DigestUtils.sha512Hex(userLogin.getPassword()))){
@@ -103,14 +110,17 @@ public class JwtAuthenticationController {
     @Path("user")
     public Response getUser(@Context HttpServletRequest req)
     {
-        String authorizationHeader = req.getHeader("Authorization");
-        // Extract the token from the HTTP Authorization header
-        String token = authorizationHeader.substring("Bearer".length()).trim();
+        String token = req.getHeader("Authorization").substring("Bearer".length()).trim();
+
         User user = userRepository.find(jwtTokenUtil.getUsernameFromToken(token));
         userRepository.detach(user);
         user.setPassword(null);
 
-        return Response.ok().entity(user).build();
+        if(jwtTokenUtil.validateAdmin(token)){
+            return Response.ok().entity(user).build();
+        } else {
+            return Response.status(403).build();
+        }
     }
 
 
