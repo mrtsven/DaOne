@@ -52,6 +52,7 @@ public class UserRepository {
     }
 
     public boolean twoFactorLogin(String email, String password) {
+        // If login is within 5 minutes, pass.
         if(find(email).getReceived().getTime() + 30000 <= System.currentTimeMillis()){
             return find(email).getRandomPassword().equals(password);
         }
