@@ -52,9 +52,10 @@ public class UserRepository {
     }
 
     public boolean twoFactorLogin(String email, String password) {
-        if(System.currentTimeMillis() + 30000 < find(email).getReceived().getTime()){
+        if(find(email).getReceived().getTime() + 30000 <= System.currentTimeMillis()){
             return find(email).getRandomPassword().equals(password);
         }
+
         return false;
     }
 }
