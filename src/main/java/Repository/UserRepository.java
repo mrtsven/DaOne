@@ -5,6 +5,7 @@ import Models.User.User;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -47,7 +48,13 @@ public class UserRepository {
     }
 
     public boolean login(String email, String password) {
-        System.out.println(find(email).getPassword().equals(password));
         return find(email).getPassword().equals(password);
+    }
+
+    public boolean twoFactorLogin(String email, String password) {
+        if(System.currentTimeMillis() + 30000 < find(email).getReceived().getTime()){
+            return find(email).getRandomPassword().equals(password);
+        }
+        return false;
     }
 }

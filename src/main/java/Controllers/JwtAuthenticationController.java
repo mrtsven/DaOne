@@ -3,6 +3,7 @@ package Controllers;
 import Authetication.UserDTO;
 import Authetication.UserPrivilege;
 import Configuration.JwtTokenUtil;
+import Configuration.RandomPasswordGenerator;
 import Mail.EmailClient;
 import Models.User.User;
 import Models.User.UserLogin;
@@ -11,6 +12,7 @@ import Repository.UserRepository;
 import Response.JsonResponse;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.json.JSONObject;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -24,6 +26,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
@@ -41,16 +44,36 @@ public class JwtAuthenticationController {
     private UserRepository userRepository;
 
     @POST
+    @Path("sendRandomPassword")
+    public Response mailPassword(UserLogin userLogin, @Context HttpServletRequest request) throws MessagingException{
+        String randomPass = RandomPasswordGenerator.generatePassword(8);
+        JSONObject response = new JSONObject();
+
+        if(userRepository.login(userLogin.getEmail(), DigestUtils.sha512Hex(userLogin.getPassword()))){
+            User user = userRepository.find(userLogin.getEmail());
+
+            user.setReceived(new Date());
+            user.setRandomPassword(DigestUtils.sha512Hex(randomPass));
+
+            userRepository.update(user);
+
+            response.put("user", user.toJsonCustom());
+
+            emailClient.sendAsHtml(userLogin.getEmail(), "Password boy", randomPass);
+        }
+
+        return Response.ok(response.toString(2)).build();
+    }
+
+    @POST
     @Path("login")
     public Response authenticate(UserLogin userLogin, @Context HttpServletRequest request) throws MessagingException {
         JsonResponse json = new JsonResponse();
         String token = null;
         json.setData(userLogin);
 
-        emailClient.sendAsHtml("react@react.com", "Password boy", "<strong>Suh</strong>");
-
         try {
-            if(userRepository.login(userLogin.getEmail(), DigestUtils.sha512Hex(userLogin.getPassword()))){
+            if(userRepository.twoFactorLogin(userLogin.getEmail(), DigestUtils.sha512Hex(userLogin.getPassword()))){
                 User user = userRepository.find(userLogin.getEmail());
                 token = jwtTokenUtil.generateToken(user);
 

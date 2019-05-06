@@ -1,6 +1,7 @@
 package Authetication;
 
 import javax.ejb.Stateless;
+import java.util.Date;
 
 @Stateless
 public class UserDTO {
@@ -49,6 +50,7 @@ public class UserDTO {
     public void setPassword2(String password2) {
         this.password2 = password2;
     }
+
 
     @Override
     public String toString() {

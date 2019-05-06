@@ -3,6 +3,7 @@ package Models.User;
 import Authetication.UserDTO;
 import Authetication.UserPrivilege;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.json.JSONObject;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,9 +26,15 @@ public class User implements Serializable {
     @Column(nullable=false, length=128) // sha-512 + hex
     private String password;
 
+    @Column(length=128) // sha-512 + hex
+    private String randomPassword;
+
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @Column(nullable=false)
     private Date registeredOn;
+
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date received;
 
     @ElementCollection(targetClass = UserPrivilege.class)
     @CollectionTable(name = "User_UserPrivilege",
@@ -51,7 +58,9 @@ public class User implements Serializable {
         this.firstName    = user.getFirstName();
         this.lastName     = user.getLastName();
         this.password     = DigestUtils.sha512Hex(user.getPassword1() );
+        this.randomPassword = DigestUtils.sha512Hex(this.getRandomPassword());
         this.registeredOn = new Date();
+        this.received = this.getReceived();
     }
 
     public String getFirstName() {
@@ -107,6 +116,34 @@ public class User implements Serializable {
 
     public boolean hasPrivilege(UserPrivilege role) {
         return (roles.contains(role));
+    }
+
+    public String getRandomPassword() {
+        return randomPassword;
+    }
+
+    public void setRandomPassword(String randomPassword) {
+        this.randomPassword = randomPassword;
+    }
+
+    public Date getReceived() {
+        return received;
+    }
+
+    public void setReceived(Date received) {
+        this.received = received;
+    }
+
+    public JSONObject toJsonCustom(){
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("email", this.email);
+        jsonObject.put("firstName", this.firstName);
+        jsonObject.put("lastName", this.lastName);
+        jsonObject.put("registeredOn", this.registeredOn);
+        jsonObject.put("roles", this.roles);
+
+        return  jsonObject;
     }
 
     @Override
