@@ -83,13 +83,13 @@ public class JwtAuthenticationController {
                 return Response.ok().header(AUTHORIZATION, "Bearer " + token).entity(json).build();
             } else{
                 json.setStatus("FAILED");
-                json.setErrorMsg("We failed to authenticate: " + json.toString());
+                json.setErrorMsg("We failed to authenticate: " + json.getData().toString());
 
                 return Response.status(401).entity(json).build();
             }
         } catch (Exception e){
-            json.setStatus("FAILED");
-            json.setErrorMsg("We failed to authenticate: " + json.toString());
+            json.setStatus("CRASH");
+            json.setErrorMsg("We failed to authenticate: " + json.getData().toString());
 
             return Response.status(401).entity(json).build();
         }
@@ -139,9 +139,19 @@ public class JwtAuthenticationController {
         userRepository.detach(user);
         user.setPassword(null);
 
+        return Response.ok().entity(user).build();
+
+    }
+
+    @GET
+    @Path("users")
+    public Response getUsers(@Context HttpServletRequest req)
+    {
+        String token = req.getHeader("Authorization").substring("Bearer".length()).trim();
+
         if(jwtTokenUtil.validateAdmin(token)){
-            return Response.ok().entity(user).build();
-        } else {
+            return Response.ok(userRepository.findAll()).build();
+        }else {
             return Response.status(403).build();
         }
     }

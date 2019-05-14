@@ -4,7 +4,6 @@ import Configuration.JwtTokenUtil;
 import Models.Car.Car;
 import Models.Car.CarDTO;
 import Repository.CarRepo;
-import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import javax.ejb.EJB;
@@ -48,15 +47,15 @@ public class CarController {
 
 
     @POST
-    @Path("/{userId}/create")
+    @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createCar(@PathParam("userId") Long userId, CarDTO carDTO){
+    public Response createCar(CarDTO carDTO){
         Car car = new Car(carDTO);
         car = carRepo.create(car);
 
         JSONObject response = new JSONObject();
         response.put("car", car.toJsonCustom());
-        response.put("_links", getLinks(URI.create("http://localhost:8080/DaOne/api/userId/create")));
+        response.put("_links", getLinks(URI.create("http://localhost:8080/DaOne/api/create")));
 
         return Response.ok(response.toString(2)).build();
     }

@@ -1,5 +1,7 @@
 package Models.Part;
 
+import org.json.JSONObject;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -15,7 +17,6 @@ public class Part implements Serializable {
     @NotNull(message = "Specify if you can sell this car part")
     private boolean sellable;
     private double price;
-    private Long car_id;
 
     public Part() {
     }
@@ -58,11 +59,15 @@ public class Part implements Serializable {
         this.price = price;
     }
 
-    public Long getCar_id() {
-        return car_id;
-    }
 
-    public void setCar_id(Long car_id) {
-        this.car_id = car_id;
+    public JSONObject toJsonCustom(){
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("id", this.id);
+        jsonObject.put("description", this.description);
+        jsonObject.put("sellable", this.sellable);
+        jsonObject.put("price", this.price);
+
+        return  jsonObject;
     }
 }

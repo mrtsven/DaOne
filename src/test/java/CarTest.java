@@ -28,7 +28,7 @@ public class CarTest {
        carDTO.setCarName("testAuto");
        carDTO.setModel("Tesla");
        carDTO.setPrice(30000);
-       carDTO.setOwner_id(1l);
+       carDTO.setOwner("test@test.com");
 
        Response response = given()
                .contentType(ContentType.JSON)

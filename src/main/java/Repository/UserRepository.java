@@ -40,7 +40,7 @@ public class UserRepository {
     }
 
     public User find(String email) {
-        return entityManager.find(User.class, email);
+        return entityManager.createQuery("SELECT u FROM User u where u.email = :email", User.class).setParameter("email", email).getSingleResult();
     }
 
     public void detach(User user) {
@@ -53,7 +53,7 @@ public class UserRepository {
 
     public boolean twoFactorLogin(String email, String password) {
         // If login is within 5 minutes, pass.
-        if(find(email).getReceived().getTime() + 30000 <= System.currentTimeMillis()){
+        if(System.currentTimeMillis() <= find(email).getReceived().getTime() + 30000){
             return find(email).getRandomPassword().equals(password);
         }
 

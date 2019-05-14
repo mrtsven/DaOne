@@ -4,8 +4,8 @@ import Models.Part.Part;
 import org.json.JSONObject;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,10 +20,11 @@ public class Car implements Serializable {
     @NotNull(message = "You need to specify the car model")
     private String model;
     @NotNull(message = "You have to specify the car price")
+    @Min(value = 666, message = "The car must be at least 666 money")
     private double price;
     private Long liked_by;
     @NotNull(message = "You have to specify the owner")
-    private Long owner_id;
+    private String owner;
     @OneToMany
     private List<Part> parts;
 
@@ -35,7 +36,7 @@ public class Car implements Serializable {
         this.model = carDTO.getModel();
         this.price = carDTO.getPrice();
         this.liked_by = carDTO.getLiked_by();
-        this.owner_id = carDTO.getOwner_id();
+        this.owner = carDTO.getOwner();
         this.parts = carDTO.getParts();
     }
 
@@ -79,12 +80,12 @@ public class Car implements Serializable {
         this.liked_by = liked_by;
     }
 
-    public Long getOwner_id() {
-        return owner_id;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setOwner_id(Long owner_id) {
-        this.owner_id = owner_id;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public List<Part> getParts() {
@@ -103,7 +104,7 @@ public class Car implements Serializable {
         jsonObject.put("model", this.model);
         jsonObject.put("price", this.price);
         jsonObject.put("liked_by", this.liked_by);
-        jsonObject.put("owner_id", this.owner_id);
+        jsonObject.put("owner_id", this.owner);
         jsonObject.put("parts", this.parts);
 
         return  jsonObject;
@@ -117,7 +118,7 @@ public class Car implements Serializable {
                 ", model='" + model + '\'' +
                 ", price=" + price +
                 ", liked_by=" + liked_by +
-                ", owner_id=" + owner_id +
+                ", owner_id=" + owner +
                 ", parts=" + parts +
                 '}';
     }

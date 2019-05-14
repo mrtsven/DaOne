@@ -9,7 +9,7 @@ public class CarDTO {
     private String model;
     private double price;
     private Long liked_by;
-    private Long owner_id;
+    private String owner;
     private List<Part> parts;
 
     public String getCarName() {
@@ -44,12 +44,12 @@ public class CarDTO {
         this.liked_by = liked_by;
     }
 
-    public Long getOwner_id() {
-        return owner_id;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setOwner_id(Long owner_id) {
-        this.owner_id = owner_id;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public List<Part> getParts() {

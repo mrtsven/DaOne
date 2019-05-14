@@ -6,6 +6,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONObject;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +15,11 @@ import java.util.List;
 @Table(name = "User")
 public class User implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(unique=true, nullable=false, length=128)
+    @Email
     private String email;
 
     @Column(nullable=false, length=128)
@@ -34,12 +39,13 @@ public class User implements Serializable {
     private Date registeredOn;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Column
     private Date received;
 
     @ElementCollection(targetClass = UserPrivilege.class)
     @CollectionTable(name = "User_UserPrivilege",
-            joinColumns       = @JoinColumn(name = "email", nullable=false),
-            uniqueConstraints = { @UniqueConstraint(columnNames={"email","privilegename"}) } )
+            joinColumns       = @JoinColumn(name = "ID", nullable=false),
+            uniqueConstraints = { @UniqueConstraint(columnNames={"ID","privilegename"}) } )
     @Enumerated(EnumType.STRING)
     @Column(name="privilegename", length=64, nullable=false)
     private List<UserPrivilege> roles;
@@ -58,9 +64,20 @@ public class User implements Serializable {
         this.firstName    = user.getFirstName();
         this.lastName     = user.getLastName();
         this.password     = DigestUtils.sha512Hex(user.getPassword1() );
-        this.randomPassword = DigestUtils.sha512Hex(this.getRandomPassword());
+        if(this.getRandomPassword() != null){
+            this.randomPassword = DigestUtils.sha512Hex(this.getRandomPassword());
+        }
         this.registeredOn = new Date();
         this.received = this.getReceived();
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -137,6 +154,7 @@ public class User implements Serializable {
     public JSONObject toJsonCustom(){
         JSONObject jsonObject = new JSONObject();
 
+        jsonObject.put("id", this.id);
         jsonObject.put("email", this.email);
         jsonObject.put("firstName", this.firstName);
         jsonObject.put("lastName", this.lastName);
