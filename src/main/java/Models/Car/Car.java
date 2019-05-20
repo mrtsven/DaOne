@@ -25,7 +25,7 @@ public class Car implements Serializable {
     private Long liked_by;
     @NotNull(message = "You have to specify the owner")
     private String owner;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Car", orphanRemoval = true)
     private List<Part> parts;
 
     public Car() {

@@ -1,5 +1,6 @@
 package Repository;
 
+import Models.Car.Car;
 import Models.Part.Part;
 import MyInterceptors.MyInterceptor;
 
@@ -46,8 +47,13 @@ public class PartRepo {
         return entityManager.find(Part.class, id);
     }
 
+    public void update(Part part) {
+        entityManager.merge(part);
+    }
+
     public void delete(Long id){
         Part deletePart = entityManager.find(Part.class, id);
+
         entityManager.remove(deletePart);
     }
 

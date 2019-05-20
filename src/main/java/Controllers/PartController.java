@@ -73,12 +73,28 @@ public class PartController {
         return Response.ok(response.toString(2)).build();
     }
 
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updatePart(Part part){
+        Car foundCar =  carRepo.find((long) 1);
+
+        partRepo.update(part);
+        carRepo.update(foundCar);
+
+        JSONObject response = new JSONObject();
+        response.put("part", part.toJsonCustom());
+        response.put("_links", getLinks(URI.create("http://localhost:8080/DaOne/api/part")));
+
+        return Response.ok(response.toString(2)).build();
+    }
+
     @DELETE
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") long id){
         JSONObject response = new JSONObject();
 
+        partRepo.delete(id);
 
         response.put("id", id);
         response.put("_links", getLinks(URI.create("http://localhost:8080/DaOne/api/part/partId")));

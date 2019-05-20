@@ -1,8 +1,11 @@
 package Models.Part;
 
+import Models.Car.Car;
 import org.json.JSONObject;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -16,7 +19,11 @@ public class Part implements Serializable {
     private String description;
     @NotNull(message = "Specify if you can sell this car part")
     private boolean sellable;
+    @Min(value = 1, message = "It has to be at least 1 money")
+    @Max(value = 5000, message = "It cannot cost more than 5000 money")
     private double price;
+    @ManyToOne
+    private Car car;
 
     public Part() {
     }
